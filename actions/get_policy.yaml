@@ -1,5 +1,6 @@
 ---
 name: get_policy
+pack: vault
 runner_type: run-python
 description: "Read policy from Vault server"
 enabled: true
