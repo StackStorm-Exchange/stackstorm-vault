@@ -1,0 +1,13 @@
+---
+name: delete_policy
+pack: vault
+runner_type: run-python
+description: "Delete policy from Vault server"
+enabled: true
+entry_point: "delete_policy.py"
+parameters:
+    name:
+        type: string
+        description: "Policy to delete from Vault"
+        required: true
+        position: 0
