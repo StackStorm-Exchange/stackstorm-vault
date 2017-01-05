@@ -1,0 +1,51 @@
+---
+name: create_token
+pack: vault
+runner_type: run-python
+description: "Create a new Token"
+enabled: true
+entry_point: "create_token.py"
+parameters:
+    id:
+        type: string
+        description: ""
+        required: false
+    policies:
+        type: array
+        description: ""
+        required: false
+    meta:
+        type: string
+        description: ""
+        required: false
+    no_parent:
+        type: boolean
+        description: ""
+        required: false
+        default: false
+    display_name:
+        type: string
+        description: ""
+        required: false
+    num_uses:
+        type: string
+        description: ""
+        required: false
+    no_default_policy:
+        type: boolean
+        description: ""
+        required: false
+        default: false
+    ttl:
+        type: integer
+        description: ""
+        required: false
+    orphan:
+        type: boolean
+        description: ""
+        required: false
+        default: false
+    wrap_ttl:
+        type: string
+        description: ""
+        required: false
