@@ -1,6 +1,6 @@
 ---
 name: read
-runner_type: run-python
+runner_type: python-script
 description: "Read value from Vault server"
 enabled: true
 entry_point: "read.py"

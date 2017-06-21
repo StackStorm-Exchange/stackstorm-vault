@@ -1,6 +1,6 @@
 ---
 name: write
-runner_type: run-python
+runner_type: python-script
 description: "Write a key/value to Vault"
 enabled: true
 entry_point: "write.py"

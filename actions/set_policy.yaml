@@ -1,7 +1,7 @@
 ---
 name: set_policy
 pack: vault
-runner_type: run-python
+runner_type: python-script
 description: "Create a new Vault policy"
 enabled: true
 entry_point: "set_policy.py"
