@@ -6,7 +6,7 @@ description: "Create a new Token"
 enabled: true
 entry_point: "create_token.py"
 parameters:
-    id:
+    token_id:
         type: string
         description: ""
         required: false
