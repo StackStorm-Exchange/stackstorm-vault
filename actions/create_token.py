@@ -13,7 +13,7 @@ class VaultCreateTokenAction(action.VaultBaseAction):
             ttl=None,
             orphan=False,
             wrap_ttl=None):
-        return self.vault.create_token(token_id=id,
+        return self.vault.create_token(token_id=token_id,
                                        policies=policies,
                                        meta=meta,
                                        no_parent=no_parent,
