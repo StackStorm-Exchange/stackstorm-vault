@@ -8,7 +8,8 @@ class VaultReadAction(action.VaultBaseAction):
         if kv_version == 1:
             value = self.vault.kv.v1.read_secret(path=path, mount_point=mount_point)
         elif kv_version == 2:
-            value = self.vault.kv.v2.read_secret_version(path=path, mount_point=mount_point, version=version)
+            value = self.vault.kv.v2.read_secret_version(path=path, mount_point=mount_point,
+                                                         version=version)
 
         if value:
             return value['data']
