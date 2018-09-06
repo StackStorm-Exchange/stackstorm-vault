@@ -29,3 +29,4 @@ You can also use dynamic values from the datastore. See the
 * `list_policies` - List policies from Vault server
 * `read` - Read value from Vault server
 * `write` - Write key/value to Vault server
+* `read_kv` - Read key-value secrets from Vault server

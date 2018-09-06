@@ -1,0 +1,26 @@
+---
+name: read_kv
+runner_type: python-script
+description: "Read a kv value from Vault server"
+enabled: true
+entry_point: "read_kv.py"
+parameters:
+    path:
+      type: string
+      description: "Key to read from Vault"
+      required: true
+      position: 0
+    kv_version:
+      type: number
+      description: "The version of the KV store in vault.  Use 1 for legacy kv stores, 2 for newer kv stores"
+      required: true
+    mount_point:
+      type: string
+      description: "The mount point of the kv store"
+      required: true
+      default: "secret"
+    version:
+      type: string
+      description: "The version of the kv *data*"
+      required: true
+      default: '1'
