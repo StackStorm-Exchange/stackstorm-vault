@@ -3,6 +3,9 @@ ref: vault
 name: vault
 description: HashiCorp Vault
 version: 0.5.1
+python_versions:
+  - "2"
+  - "3"
 author: steve.neuharth
 email: steve.neuharth@target.com
 contributors:
