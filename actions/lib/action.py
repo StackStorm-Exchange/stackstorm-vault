@@ -11,8 +11,14 @@ class VaultBaseAction(Action):
     def _get_client(self):
         url = self.config['url']
         token = self.config['token']
-        cert = self.config['cert']
-        verify = self.config['verify']
+        verify = self._get_verify()
 
-        client = hvac.Client(url=url, token=token, cert=cert, verify=verify)
+        client = hvac.Client(url=url, token=token, verify=verify)
         return client
+
+    def _get_verify(self):
+        verify = self.config['verify']
+        cert = self.config['cert']
+        if verify and cert:
+            return cert
+        return verify

@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.5.2
+
+- Pass certificate correctly to hvac
+
 ## 0.5.1
 
 - Version bump to fix tagging issues
