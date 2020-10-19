@@ -19,7 +19,6 @@ class VaultBaseAction(Action):
     def _get_verify(self):
         verify = self.config['verify']
         cert = self.config['cert']
-        if verify:
-            if cert and cert != '':
-                return cert
+        if verify and cert:
+            return cert
         return verify
