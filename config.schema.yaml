@@ -9,13 +9,50 @@
     type: "string"
     secret: false
     required: false
-  token:
-    description: "Authentication token"
-    type: "string"
-    secret: true
-    required: false
   verify:
     description: "Whether to verify the SSL certificate or not"
     type: "boolean"
     secret: false
     default: true
+
+  auth_method:
+    description: "Authentication method"
+    type: "string"
+    default: "token"
+    enum:
+      - approle
+      - token
+      # Not implemented:
+      # - app-id
+      # - ali-cloud
+      # - aws-iam  # aka aws
+      # - aws-ec2
+      # - azure
+      # - cert  # aka tls
+      # - gcp
+      # - github
+      # - jwt
+      # - kubernetes
+      # - ldap
+      # - mfa
+      # - oidc
+      # - okta
+      # - radius
+      # - userpass
+    required: false
+  
+  token:
+    description: "Authentication token (method=token)"
+    type: "string"
+    secret: true
+    required: false
+  role_id:
+    description: "Authentication approle role-id (method=approle)"
+    type: "string"
+    secret: true
+    required: false
+  secret_id:
+    description: "Authentication approle secret-id (method=approle)"
+    type: "string"
+    secret: true
+    required: false

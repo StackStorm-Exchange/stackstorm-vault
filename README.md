@@ -11,8 +11,16 @@ It should contain:
 
 * `url` - URL for the Vault server
 * `cert` - Path to client-side certificate
-* `token` - Authentication token
 * `verify` - Whether to verify the SSL certificate or not
+* `auth_method` - Which authentication method to use.
+  Only `token` (the default) and `approle` are implemented so far.
+
+Also include the relevant auth_method-specific config:
+
+* `token` - Authentication token for `auth_method=token`. If not specified,
+  also tries using the `VAULT_TOKEN` env var or the `~/.vault-token` file.
+* `role_id` - Authentication role_id for `auth_method=approle`.
+* `secret_id` - Authentication secret_id for `auth_method=approle`.
 
 You can also use dynamic values from the datastore. See the
 [docs](https://docs.stackstorm.com/reference/pack_configs.html) for more info.
