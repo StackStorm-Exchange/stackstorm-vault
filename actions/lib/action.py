@@ -19,18 +19,25 @@ class VaultBaseAction(Action):
         # get the token from VAULT_TOKEN env var or ~/.vault-token
         client = hvac.Client(url=url, token=token, verify=verify)
 
+        # NB: for auth_methods, we used to be able to login with
+        # client.auth_*, but most of those have been deprecated
+        # in favor of: client.auth.<method>.login
+        # So, use client.auth.<method> where implemented
+
         # token is handled during client init
         # other auth methods will override it as needed
         if auth_method == "token":
             pass
-
-        # where implemented prefer: client.auth.<method>.login
-        # as many client.auth_* methods are deprecated.
-
         elif auth_method == "approle":
             client.auth.approle.login(
                 role_id=self.config["role_id"],
                 secret_id=self.config["secret_id"],
+            )
+        else:
+            raise NotImplementedError(
+                "The {} auth method has a typo or has not been implemented (yet).".format(
+                    auth_method
+                )
             )
 
         return client
