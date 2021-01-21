@@ -1,7 +1,7 @@
 from lib import action
 
 
-class VaultReadAction(action.VaultBaseAction):
+class VaultReadKVAction(action.VaultBaseAction):
     def run(self, path, kv_version, mount_point, version):
         value = None
 

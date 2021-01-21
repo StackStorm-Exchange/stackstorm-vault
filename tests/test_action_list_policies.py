@@ -1,9 +1,9 @@
 from st2tests.base import BaseActionTestCase
 
-from list_policies import VaultListPoliciesAction
+from list_policies import VaultPolicyListAction
 
-class ListPoliciesActionTestCase(BaseActionTestCase):
-    action_cls = VaultListPoliciesAction
+class PolicyListActionTestCase(BaseActionTestCase):
+    action_cls = VaultPolicyListAction
 
     def test_method(self):
         action = self.get_action_instance(config={'foo': 'bar'})
