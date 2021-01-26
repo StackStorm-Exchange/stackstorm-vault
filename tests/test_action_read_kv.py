@@ -1,7 +1,7 @@
 from st2tests.base import BaseActionTestCase
 
 from read_kv import VaultReadKVAction
-from .fixtures.config import dummy_config
+from tests.fixtures.config import dummy_config
 
 
 class ReadKVActionTestCase(BaseActionTestCase):

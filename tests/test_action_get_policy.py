@@ -1,7 +1,7 @@
 from st2tests.base import BaseActionTestCase
 
 from get_policy import VaultGetPolicyAction
-from .fixtures.config import dummy_config
+from tests.fixtures.config import dummy_config
 
 
 class GetPolicyActionTestCase(BaseActionTestCase):

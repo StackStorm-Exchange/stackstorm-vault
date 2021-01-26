@@ -1,7 +1,7 @@
 from st2tests.base import BaseActionTestCase
 
 from write import VaultWriteAction
-from .fixtures.config import dummy_config
+from tests.fixtures.config import dummy_config
 
 
 class WriteActionTestCase(BaseActionTestCase):
