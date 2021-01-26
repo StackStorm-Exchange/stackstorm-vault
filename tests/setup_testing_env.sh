@@ -15,20 +15,21 @@
 # `deployment` will only run this script if it is executable.
 ROOT_DIR="${ROOT_DIR:-$(pwd)}"
 HVAC_DIR="${ROOT_DIR}/hvac"
-HVAC_VAULT_VERSION="${HVAC_VAULT_VERSION:-STABLE}"
-HVAC_VAULT_LICENSE="${HVAC_VAULT_LICENSE:-OSS}"
 
 # master = the release branch; devel = the active development branch
 git clone -b master git://github.com/hvac/hvac.git "${HVAC_DIR}"
 
 # This script needs to work both in CI, and for local testing.
-# These scripts "install" the binaries in ${HOME}/bin by default, which is
-# only ok in CI. To avoid passing in CONSUL_VERSION (as $1), we specify install
-# dir with $HOME instead of CONSUL_DIR (as $2).
+#
+# These scripts "install" the binaries in ${HOME}/bin by default,
+# which is only ok in CI. To avoid passing in Consul/Vault VERSION (as $1),
+# we specify install dir with $HOME instead of CONSUL_DIR (as $2).
 HOME=${HVAC_DIR} ${HVAC_DIR}/tests/scripts/install-consul.sh
-${HVAC_DIR}/tests/scripts/install-vault.sh ${HVAC_VAULT_VERSION} ${HVAC_VAULT_LICENSE} ${HVAC_DIR}/bin
+HOME=${HVAC_DIR} ${HVAC_DIR}/tests/scripts/install-vault.sh
 
-# hvac uses tox+nosetests to run tests
-# using a symlink allows us to import tests.utils.* without adding the rest of the hvac tests.
-rm -f ${ROOT_DIR}/tests/utils
-ln -s ${HVAC_DIR}/tests/utils ${ROOT_DIR}/tests/utils
+# using symlinks allows us to import tests.utils.* without adding the rest of the hvac tests.
+# tests.utils also uses config_files, so make that available
+for x in utils config_files; do
+    rm -f ${ROOT_DIR}/tests/${x}
+    ln -s ${HVAC_DIR}/tests/${x} ${ROOT_DIR}/tests/${x}
+done
