@@ -31,5 +31,6 @@ HOME=${HVAC_DIR} ${HVAC_DIR}/tests/scripts/install-vault.sh
 # tests.utils also uses config_files, so make that available
 for x in utils config_files; do
     rm -f ${ROOT_DIR}/tests/${x}
-    ln -s ${HVAC_DIR}/tests/${x} ${ROOT_DIR}/tests/${x}
+    # relative (-r) allows the symlink to work in vagrant
+    ln -rs ${HVAC_DIR}/tests/${x} ${ROOT_DIR}/tests/${x}
 done
