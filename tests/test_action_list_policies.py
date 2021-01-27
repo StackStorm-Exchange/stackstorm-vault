@@ -1,12 +1,10 @@
-from st2tests.base import BaseActionTestCase
-
 from list_policies import VaultPolicyListAction
-from tests.fixtures.config import dummy_config
+from tests.vault_action_tests_base import VaultActionTestCase
 
 
-class PolicyListActionTestCase(BaseActionTestCase):
+class PolicyListActionTestCase(VaultActionTestCase):
     action_cls = VaultPolicyListAction
 
     def test_method(self):
-        action = self.get_action_instance(config=dummy_config)
+        action = self.get_action_instance(config=self.dummy_pack_config)
         result = action.run()

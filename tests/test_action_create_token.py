@@ -1,14 +1,12 @@
-from st2tests.base import BaseActionTestCase
-
 from create_token import VaultCreateTokenAction
-from tests.fixtures.config import dummy_config
+from tests.vault_action_tests_base import VaultActionTestCase
 
 
-class CreateTokenActionTestCase(BaseActionTestCase):
+class CreateTokenActionTestCase(VaultActionTestCase):
     action_cls = VaultCreateTokenAction
 
     def test_method(self):
-        action = self.get_action_instance(config=dummy_config)
+        action = self.get_action_instance(config=self.dummy_pack_config)
         result = action.run(
             # token_id=None,
             # policies=None,

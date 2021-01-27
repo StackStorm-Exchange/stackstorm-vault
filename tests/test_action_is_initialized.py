@@ -1,12 +1,10 @@
-from st2tests.base import BaseActionTestCase
-
 from is_initialized import VaultIsInitializedAction
-from tests.fixtures.config import dummy_config
+from tests.vault_action_tests_base import VaultActionTestCase
 
 
-class IsInitializedActionTestCase(BaseActionTestCase):
+class IsInitializedActionTestCase(VaultActionTestCase):
     action_cls = VaultIsInitializedAction
 
     def test_method(self):
-        action = self.get_action_instance(config=dummy_config)
+        action = self.get_action_instance(config=self.dummy_pack_config)
         result = action.run()

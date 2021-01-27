@@ -1,10 +1,8 @@
-from st2tests.base import BaseActionTestCase
-
 from write import VaultWriteAction
-from tests.fixtures.config import dummy_config
+from tests.vault_action_tests_base import VaultActionTestCase
 
 
-class WriteActionTestCase(BaseActionTestCase):
+class WriteActionTestCase(VaultActionTestCase):
     action_cls = VaultWriteAction
 
     def test_method(self):
