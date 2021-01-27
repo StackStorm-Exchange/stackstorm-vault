@@ -8,6 +8,7 @@ class VaultActionTestCase(HvacIntegrationTestCase, BaseActionTestCase):
     dummy_pack_config = None
     secret_v1 = False
     secret_v2 = False
+    default_token_lease = "1h"
 
     # in setUp() and tearDown(), explicitly handle super()-like calls.
     #  - HvacIntegrationTestCase does not call super().
@@ -56,7 +57,7 @@ class VaultActionTestCase(HvacIntegrationTestCase, BaseActionTestCase):
         # based on create_client() in hvac/tests/utils/__init__.py
         server_cert_path = get_config_file_path("server-cert.pem")
 
-        token_result = self.client.create_token(lease="1h")
+        token_result = self.client.create_token(lease=self.default_token_lease)
         token = token_result["auth"]["client_token"]
 
         dummy_pack_config = {

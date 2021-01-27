@@ -5,6 +5,10 @@ from tests.vault_action_tests_base import VaultActionTestCase
 class CreateTokenActionTestCase(VaultActionTestCase):
     action_cls = VaultCreateTokenAction
 
+    # Use None here to avoid this error:
+    #   "expiring root tokens cannot create non-expiring root tokens"
+    default_token_lease = None
+
     def test_method(self):
         action = self.get_action_instance(config=self.dummy_pack_config)
         result = action.run(
@@ -19,3 +23,4 @@ class CreateTokenActionTestCase(VaultActionTestCase):
             # orphan=False,
             # wrap_ttl=None,
         )
+        assert result["auth"]["client_token"]
