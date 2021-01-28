@@ -62,21 +62,16 @@ class VaultActionTestCase(HvacIntegrationTestCase, BaseActionTestCase):
 
         dummy_pack_config = {
             "url": url,
-
             # pack config | relation | hvac.Client()
             # ------------|----------|--------------
             #    cert     |    !=    |     cert
             # cert+verify |    ==    |    verify
             "cert": server_cert_path,
             "verify": True,
-
             "auth_method": "token",
-
             "token": token,
-
             "role_id": None,
             "secret_id": None,
         }
 
         return dummy_pack_config
-

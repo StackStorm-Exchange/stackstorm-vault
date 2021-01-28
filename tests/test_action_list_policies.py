@@ -7,7 +7,7 @@ class PolicyListActionTestCase(VaultActionTestCase):
 
     def test_method(self):
         # setup
-        rules_text, rules_obj = self.prep_policy("stanley")
+        self.prep_policy("stanley")
 
         # test
         action = self.get_action_instance(config=self.dummy_pack_config)

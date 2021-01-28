@@ -18,7 +18,6 @@ class ReadKVActionTestCase(VaultActionTestCase):
             mount_point=mount_point,
         )
 
-
         # test
         action = self.get_action_instance(config=self.dummy_pack_config)
         result = action.run(

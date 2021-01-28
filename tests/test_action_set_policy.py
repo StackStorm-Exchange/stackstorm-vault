@@ -11,14 +11,7 @@ class PolicySetActionTestCase(VaultActionTestCase):
         path "sys" { policy = "deny" }
         path "secret" { policy = "write" }
         """
-        rules_obj = {
-            "path": {
-                "sys": {
-                    "policy": "deny"},
-                "secret": {
-                    "policy": "write"}
-            }
-        }
+        # rules_obj = {"path": {"sys": {"policy": "deny"}, "secret": {"policy": "write"}}}
 
         action = self.get_action_instance(config=self.dummy_pack_config)
         action_result = action.run(

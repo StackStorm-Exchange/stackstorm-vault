@@ -13,6 +13,7 @@ class DeleteActionTestCase(VaultActionTestCase):
         action = self.get_action_instance(config=self.dummy_pack_config)
         action_result = action.run(path="secret/stanley")
         # action_result is a requests.response object
+        assert action_result is not None
 
         result = self.client.read("secret/stanley")
         assert result is None
