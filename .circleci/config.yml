@@ -26,9 +26,13 @@ jobs:
           # can't intercept the error and cause non-fatal exit in case pack
           # doesn't declare support for Python 3
           shell: /bin/bash
+          # TODO: delete last 3 lines when StackStorm-Exchange/ci#101 is merged
           command: |
             git clone -b master git://github.com/stackstorm-exchange/ci.git ~/ci
             ~/ci/.circle/dependencies ; ~/ci/.circle/exit_on_py3_checks $?
+            echo "Setting up custom pack testing environment with tests/setup_testing_env.sh"
+            source ~/virtualenv/bin/activate
+            tests/setup_testing_env.sh
       - run:
           name: Run tests (Python 3.6)
           # NOTE: We don't want to use default "-e" option because this means
