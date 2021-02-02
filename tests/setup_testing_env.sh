@@ -1,4 +1,5 @@
 #!/bin/bash
+set -eux
 
 # For python deps, please use requirements.txt or requirements-test.txt.
 # Do not install python requirements with this script.
