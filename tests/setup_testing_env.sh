@@ -16,8 +16,8 @@
 ROOT_DIR="${ROOT_DIR:-$(pwd)}"
 HVAC_DIR="${ROOT_DIR}/hvac"
 
-# master = the release branch; devel = the active development branch
-git clone -b master git://github.com/hvac/hvac.git "${HVAC_DIR}"
+# main = the release branch; devel = the active development branch
+git clone -b main git://github.com/hvac/hvac.git "${HVAC_DIR}"
 
 # This script needs to work both in CI, and for local testing.
 #
