@@ -12,7 +12,7 @@ class ReadActionTestCase(VaultActionTestCase):
         # test
         action = self.get_action_instance(config=self.dummy_pack_config)
         result = action.run(path="secret/stanley")
-        assert result["st2"] == "awesome"
+        self.assertEqual(result["st2"], "awesome")
 
         # cleanup
         self.client.delete("secret/stanley")

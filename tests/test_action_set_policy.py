@@ -18,10 +18,10 @@ class PolicySetActionTestCase(VaultActionTestCase):
             name="stanley",
             rules=rules_text,
         )
-        assert action_result is None
+        self.assertIsNone(action_result)
 
         result = self.client.get_policy("stanley")
-        assert result == rules_text
+        self.assertEqual(result, rules_text)
 
         # cleanup
         self.client.delete_policy("stanley")

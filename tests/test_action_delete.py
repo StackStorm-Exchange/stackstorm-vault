@@ -13,7 +13,7 @@ class DeleteActionTestCase(VaultActionTestCase):
         action = self.get_action_instance(config=self.dummy_pack_config)
         action_result = action.run(path="secret/stanley")
         # hvac does not return anything here
-        assert action_result is None
+        self.assertIsNone(action_result)
 
         result = self.client.read("secret/stanley")
-        assert result is None
+        self.assertIsNone(result)

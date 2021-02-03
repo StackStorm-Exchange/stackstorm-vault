@@ -13,10 +13,10 @@ class WriteActionTestCase(VaultActionTestCase):
             values='{"st2": "awesome"}',
         )
         # action_result is a requests.response object
-        assert action_result is not None
+        self.assertIsNotNone(action_result)
 
         result = self.client.read("secret/stanley")
-        assert result["data"]["st2"] == "awesome"
+        self.assertEqual(result["data"]["st2"], "awesome")
 
         # cleanup
         self.client.delete("secret/stanley")

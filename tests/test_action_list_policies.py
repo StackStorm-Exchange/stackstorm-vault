@@ -12,10 +12,10 @@ class PolicyListActionTestCase(VaultActionTestCase):
         # test
         action = self.get_action_instance(config=self.dummy_pack_config)
         result = action.run()
-        assert "stanley" in result
+        self.assertIn("stanley", result)
 
         self.client.delete_policy("stanley")
 
         action = self.get_action_instance(config=self.dummy_pack_config)
         result = action.run()
-        assert "stanley" not in result
+        self.assertNotIn("stanley", result)

@@ -23,4 +23,4 @@ class CreateTokenActionTestCase(VaultActionTestCase):
             # orphan=False,
             # wrap_ttl=None,
         )
-        assert result["auth"]["client_token"]
+        self.assertIsNotNone(result["auth"]["client_token"])

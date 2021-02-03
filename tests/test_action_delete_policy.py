@@ -12,7 +12,7 @@ class PolicyDeleteActionTestCase(VaultActionTestCase):
         # test
         action = self.get_action_instance(config=self.dummy_pack_config)
         action_result = action.run(name="stanley")
-        assert action_result is None
+        self.assertIsNone(action_result)
 
         result = self.client.get_policy("stanley")
-        assert result is None
+        self.assertIsNone(result)
