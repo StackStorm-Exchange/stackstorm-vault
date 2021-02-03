@@ -10,15 +10,17 @@ class VaultActionTestCase(HvacIntegrationTestCase, BaseActionTestCase):
     secret_v2 = False
     default_token_lease = "1h"
 
-    # in setUp() and tearDown(), explicitly handle super()-like calls.
-    #  - HvacIntegrationTestCase does not call super().
-    #  - BaseActionTestCase does call super().
+    # NB: self.client has a root_token. Use for test setup, but not for action tests.
 
     def setUp(self):
-        HvacIntegrationTestCase.setUp(self)
-        # self.client = create_client(token=self.manager.root_token)
-        # also mocks hvac.utils.warnings which we might not want.
-        BaseActionTestCase.setUp(self)
+        # NOTE: HvacIntegrationTestCase.setUp() mocks hvac.utils.warnings
+        # which means that deprecations warnings will be swallowed in CI.
+        # We might need to work around that at some point.
+
+        super(VaultActionTestCase, self).setUp()
+        # HvacIntegrationTestCase does not call super(), so we take care of that.
+        super(HvacIntegrationTestCase, self).setUp()
+
         self.dummy_pack_config = self.build_dummy_pack_config()
 
         mounted_secrets_engines = self.client.sys.list_mounted_secrets_engines()["data"]
@@ -45,8 +47,10 @@ class VaultActionTestCase(HvacIntegrationTestCase, BaseActionTestCase):
             )
 
     def tearDown(self):
-        BaseActionTestCase.tearDown(self)
-        HvacIntegrationTestCase.tearDown(self)
+        # HvacIntegrationTestCase does not call super(), so we take care of that.
+        super(HvacIntegrationTestCase, self).setUp()
+        super(VaultActionTestCase, self).setUp()
+
         self.dummy_pack_config = None
         if self.secret_v1:
             self.client.disable_secret_backend(mount_point="kvv1")
