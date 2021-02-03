@@ -20,13 +20,9 @@ HVAC_DIR="${ROOT_DIR}/hvac"
 # main = the release branch; devel = the active development branch
 git clone -b main git://github.com/hvac/hvac.git "${HVAC_DIR}"
 
-# This script needs to work both in CI, and for local testing.
-#
-# These scripts "install" the binaries in ${HOME}/bin by default,
-# which is only ok in CI. To avoid passing in Consul/Vault VERSION (as $1),
-# we specify install dir with $HOME instead of CONSUL_DIR (as $2).
-HOME=${VIRTUAL_ENV:-${HVAC_DIR}} ${HVAC_DIR}/tests/scripts/install-consul.sh
-HOME=${VIRTUAL_ENV:-${HVAC_DIR}} ${HVAC_DIR}/tests/scripts/install-vault.sh
+# These scripts "install" the binaries in ${HOME}/.local/bin by default.
+${HVAC_DIR}/tests/scripts/install-consul.sh
+${HVAC_DIR}/tests/scripts/install-vault.sh
 
 # using symlinks allows us to import tests.utils.* without adding the rest of the hvac tests.
 # tests.utils also uses config_files, so make that available
