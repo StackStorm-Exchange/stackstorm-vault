@@ -15,7 +15,7 @@ set -eux
 # This script is called by `deployment` housed in StackStorm-exchange/ci.
 # `deployment` will only run this script if it is executable.
 ROOT_DIR="${ROOT_DIR:-$(pwd)}"
-HVAC_DIR="${ROOT_DIR}/hvac"
+HVAC_DIR="${ROOT_DIR}/.hvac"
 
 # main = the release branch; devel = the active development branch
 git clone -b main git://github.com/hvac/hvac.git "${HVAC_DIR}"

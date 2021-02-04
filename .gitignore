@@ -1,6 +1,6 @@
 # hvac tests (see tests/setup_testing_env.sh)
 # - hvac is where CI checks out the git repo
-hvac
+.hvac
 # - tests/utils should be a symlink to tests/utils in an hvac git checkout
 tests/utils
 tests/config_files
