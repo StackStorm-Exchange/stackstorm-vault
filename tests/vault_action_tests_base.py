@@ -47,9 +47,9 @@ class VaultActionTestCase(HvacIntegrationTestCase, BaseActionTestCase):
             )
 
     def tearDown(self):
-        super(VaultActionTestCase, self).setUp()
+        super(VaultActionTestCase, self).tearDown()
         # HvacIntegrationTestCase does not call super(), so we take care of that.
-        super(HvacIntegrationTestCase, self).setUp()
+        super(HvacIntegrationTestCase, self).tearDown()
 
         self.dummy_pack_config = None
         if self.secret_v1:
