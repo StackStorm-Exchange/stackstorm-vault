@@ -1,5 +1,16 @@
 # Change Log
 
+## 0.6.0
+
+WARNING: This is the last version that "supports" python2.7.
+The next version will be 1.0.0 and "2" will be dropped from python_versions.
+
+- Add ability to authenticate with approle instead of with token.
+- Drop testing with python2.7 due to broken infrastructure.
+- Add unit tests for all actions.
+- Update minimum required version of hvac to 0.10.6.
+- Migrate from deprecated hvac methods to their replacements.
+
 ## 0.5.2
 
 - Pass certificate correctly to hvac
