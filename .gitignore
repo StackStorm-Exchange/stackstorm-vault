@@ -1,3 +1,10 @@
+# hvac tests (see tests/setup_testing_env.sh)
+# - hvac is where CI checks out the git repo
+hvac
+# - tests/utils should be a symlink to tests/utils in an hvac git checkout
+tests/utils
+tests/config_files
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
