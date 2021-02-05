@@ -1,5 +1,9 @@
 # Change Log
 
+## 1.0.0
+
+* Drop Python 2.7 support
+
 ## 0.6.0
 
 WARNING: This is the last version that "supports" python2.7.
