@@ -33,6 +33,12 @@ class VaultBaseAction(Action):
                 role_id=self.config["role_id"],
                 secret_id=self.config["secret_id"],
             )
+        elif auth_method == "kubernetes":
+            with open("/var/run/secrets/kubernetes.io/serviceaccount/token") as sa_token:
+                client.auth.kubernetes.login(
+                    self.config["role"],
+                    sa_token.read(),
+                )
         else:
             raise NotImplementedError(
                 "The {} auth method has a typo or has not been implemented (yet).".format(

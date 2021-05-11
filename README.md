@@ -13,7 +13,7 @@ It should contain:
 * `cert` - Path to client-side certificate
 * `verify` - Whether to verify the SSL certificate or not
 * `auth_method` - Which authentication method to use.
-  Only `token` (the default) and `approle` are implemented so far.
+  Only `token` (the default), `approle` and `kubernetes` are implemented so far.
 
 Also include the relevant auth_method-specific config:
 
@@ -21,6 +21,7 @@ Also include the relevant auth_method-specific config:
   also tries using the `VAULT_TOKEN` env var or the `~/.vault-token` file.
 * `role_id` - Authentication role_id for `auth_method=approle`.
 * `secret_id` - Authentication secret_id for `auth_method=approle`.
+* `role` - Authentication role for `auth_method=kubernetes`
 
 You can also use dynamic values from the datastore. See the
 [docs](https://docs.stackstorm.com/reference/pack_configs.html) for more info.
