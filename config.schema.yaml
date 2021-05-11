@@ -22,6 +22,7 @@
     enum:
       - approle
       - token
+      - kubernetes
       # Not implemented:
       # - app-id
       # - ali-cloud
@@ -32,7 +33,6 @@
       # - gcp
       # - github
       # - jwt
-      # - kubernetes
       # - ldap
       # - mfa
       # - oidc
@@ -55,4 +55,8 @@
     description: "Authentication approle secret-id (method=approle)"
     type: "string"
     secret: true
+    required: false
+  role:
+    description: "Authentication role (method=kubernetes)"
+    secret: false
     required: false
