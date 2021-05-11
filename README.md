@@ -13,7 +13,7 @@ It should contain:
 * `cert` - Path to client-side certificate
 * `verify` - Whether to verify the SSL certificate or not
 * `auth_method` - Which authentication method to use.
-  Only `token` (the default), `approle` and `kubernetes` are implemented so far.
+  Available implementations are: `token` (default), `approle` and `kubernetes`.
 
 Also include the relevant auth_method-specific config:
 
