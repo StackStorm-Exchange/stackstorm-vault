@@ -24,6 +24,13 @@ class VaultBaseAction(Action):
         # in favor of: client.auth.<method>.login
         # So, use client.auth.<method> where implemented
 
+        # Support for optional kwargs - only passed to login method if defined in config
+        login_kwargs = {}
+
+        auth_mount_point = self.config.get("auth_mount_point")
+        if auth_mount_point:
+            login_kwargs["mount_point"] = auth_mount_point
+
         # token is handled during client init
         # other auth methods will override it as needed
         if auth_method == "token":
@@ -32,12 +39,14 @@ class VaultBaseAction(Action):
             client.auth.approle.login(
                 role_id=self.config["role_id"],
                 secret_id=self.config["secret_id"],
+                **login_kwargs,
             )
         elif auth_method == "kubernetes":
             with open("/var/run/secrets/kubernetes.io/serviceaccount/token") as sa_token:
                 client.auth.kubernetes.login(
                     self.config["role"],
                     sa_token.read(),
+                    **login_kwargs,
                 )
         else:
             raise NotImplementedError(

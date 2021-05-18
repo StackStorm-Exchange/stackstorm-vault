@@ -40,7 +40,11 @@
       # - radius
       # - userpass
     required: false
-  
+
+  auth_mount_point:
+    description: "Custom authentication mount point, if required"
+    type: "string"
+    required: false
   token:
     description: "Authentication token (method=token)"
     type: "string"

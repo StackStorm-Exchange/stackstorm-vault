@@ -3,6 +3,7 @@
 ## 1.1.0
 
 - Added `kuberentes` auth method.
+- Added `auth_mount_point` config option for specifying custom authentication mount points.
 
 ## 1.0.0
 
