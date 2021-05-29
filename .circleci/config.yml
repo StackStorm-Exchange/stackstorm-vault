@@ -33,6 +33,7 @@ jobs:
             echo "Setting up custom pack testing environment with tests/setup_testing_env.sh"
             source ~/virtualenv/bin/activate
             tests/setup_testing_env.sh
+            python3 -c 'import ssl; print(getattr(ssl, "HAS_SNI", None))'
       - run:
           name: Run tests (Python 3.6)
           # NOTE: We don't want to use default "-e" option because this means
