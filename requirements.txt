@@ -2,16 +2,21 @@ hvac>=0.10.6
 #hvac>=0.10.6,<0.10.9
 
 # version pinned in st2 Mar 26
-requests==2.23.0
+# works! (lowers urllib3 to 1.25.11)
+#requests==2.23.0  # requires: urllib3>=1.21.1,<1.26,!=1.25.0,!=1.25.1
+
 # version pinned in hvac repo
-#requests==2.24.0
+# does not work (lowers urllib3 to 1.25.11)
+#requests==2.24.0  # requires: urllib3>=1.21.1,<1.26,!=1.25.0,!=1.25.1
+
 # version pinned in st2 Apr 2
-#requests==2.25.1
+# does not work (jumps to urllib3 1.26.5)
+#requests==2.25.1  # requires: urllib3>=1.21.1,<1.27
 
 # version pinned in hvac repo
 #urllib3==1.25.10
 # version tested w/ on Mar 26
-#urllib3==1.25.11
+urllib3==1.25.11
 # version tested w/ on Apr 2
 #urllib3==1.26.4
 # version tested w/ more recently
