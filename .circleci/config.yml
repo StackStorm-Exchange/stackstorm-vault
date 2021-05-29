@@ -14,7 +14,7 @@ jobs:
       # Don't install various StackStorm dependencies which are already
       # installed by CI again in the various check scripts
       ST2_INSTALL_DEPS: "0"
-      VAULT_LOG_LEVEL: debug
+      VAULT_LOG_LEVEL: trace
 
     steps:
       - checkout
