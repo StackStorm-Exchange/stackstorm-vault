@@ -1,3 +1,9 @@
+# workaround messed up ssl module on CircleCI (it hits an infinite recursion loop).
+# this restores behavior of requests <=2.23.0 (see https://github.com/psf/requests/pull/5443)
+from urllib3.contrib import pyopenssl
+
+pyopenssl.inject_into_urllib3()
+
 from st2tests.base import BaseActionTestCase
 
 from tests.utils import get_config_file_path
