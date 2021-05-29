@@ -1,3 +1,6 @@
+from urllib3.contrib import pyopenssl
+pyopenssl.inject_into_urllib3()
+
 from create_token import VaultCreateTokenAction
 from tests.vault_action_tests_base import VaultActionTestCase
 
