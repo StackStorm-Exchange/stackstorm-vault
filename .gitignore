@@ -4,6 +4,7 @@
 # - tests/utils should be a symlink to tests/utils in an hvac git checkout
 tests/utils
 tests/config_files
+tests/scripts
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

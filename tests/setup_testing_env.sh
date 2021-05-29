@@ -26,8 +26,14 @@ ${HVAC_DIR}/tests/scripts/install-vault.sh
 
 # using symlinks allows us to import tests.utils.* without adding the rest of the hvac tests.
 # tests.utils also uses config_files, so make that available
-for x in utils config_files; do
-    rm -f ${ROOT_DIR}/tests/${x}
-    # relative (-r) allows the symlink to work in vagrant
-    ln -rs ${HVAC_DIR}/tests/${x} ${ROOT_DIR}/tests/${x}
-done
+#for x in utils config_files; do
+#    rm -f ${ROOT_DIR}/tests/${x}
+#    # relative (-r) allows the symlink to work in vagrant
+#    ln -rs ${HVAC_DIR}/tests/${x} ${ROOT_DIR}/tests/${x}
+#done
+rm -f ${ROOT_DIR}/tests/{utils,config_files}
+ln -rs ${HVAC_DIR}/tests/utils ${ROOT_DIR}/tests/utils
+mkdir ${ROOT_DIR}/tests/{config_files,scripts}
+cp ${HVAC_DIR}/tests/scripts/generate_test_cert.sh ${ROOT_DIR}/tests/scripts/
+cp ${HVAC_DIR}/tests/config_files/*.cnf ${ROOT_DIR}/tests/config_files/
+${ROOT_DIR}/tests/scripts/generate_test_cert.sh
