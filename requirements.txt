@@ -1,7 +1,19 @@
 hvac>=0.10.6
+#hvac>=0.10.6,<0.10.9
+
 # version pinned in st2 Mar 26
-#requests==2.23.0
+requests==2.23.0
 # version pinned in hvac repo
 #requests==2.24.0
 # version pinned in st2 Apr 2
-requests==2.25.1
+#requests==2.25.1
+
+# version pinned in hvac repo
+#urllib3==1.25.10
+# version tested w/ on Mar 26
+#urllib3==1.25.11
+# version tested w/ on Apr 2
+#urllib3==1.26.4
+# version tested w/ more recently
+#urllib3==1.26.5
+
