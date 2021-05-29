@@ -2,6 +2,6 @@ hvac>=0.10.6
 # version pinned in st2 Mar 26
 #requests==2.23.0
 # version pinned in hvac repo
-requests==2.24.0
+#requests==2.24.0
 # version pinned in st2 Apr 2
-#requests==2.25.1
+requests==2.25.1
