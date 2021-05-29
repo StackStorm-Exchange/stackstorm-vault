@@ -37,6 +37,8 @@ jobs:
             python3 -c 'import ssl; print(getattr(ssl, "HAS_SNI", None))'
             python3 -c 'import certifi;print(certifi.where())'
             python3 -c 'import os;print(os.getcwd())'
+            vault server -config=/home/circleci/repo/.hvac/tests/config_files/vault-tls.hcl &
+            python3 -c 'import hvac; b = "/home/circleci/repo/.hvac/tests/config_files" c = hvac.Client(url="https://localhost:8200", cert=(f"{b}/client-cert.pem", f"{b}/client-key.pem"), verify=f"{b}/server-cert.pem"); print(c.sys.is_initialized())'
       - run:
           name: Run tests (Python 3.6)
           # NOTE: We don't want to use default "-e" option because this means

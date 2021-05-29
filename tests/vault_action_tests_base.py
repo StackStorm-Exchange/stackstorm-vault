@@ -5,6 +5,7 @@ from tests.utils.hvac_integration_test_case import HvacIntegrationTestCase
 
 
 class VaultActionTestCase(HvacIntegrationTestCase, BaseActionTestCase):
+    DISPLAY_LOG_MESSAGES = True
     dummy_pack_config = None
     secret_v1 = False
     secret_v2 = False
@@ -16,6 +17,8 @@ class VaultActionTestCase(HvacIntegrationTestCase, BaseActionTestCase):
         # NOTE: HvacIntegrationTestCase.setUp() mocks hvac.utils.warnings
         # which means that deprecations warnings will be swallowed in CI.
         # We might need to work around that at some point.
+        import http.client
+        http.client.HTTPConnection.debuglevel = 1
 
         super(VaultActionTestCase, self).setUp()
         # HvacIntegrationTestCase does not call super(), so we take care of that.

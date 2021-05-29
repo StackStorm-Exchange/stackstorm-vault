@@ -3,13 +3,6 @@
 # import http.client
 # http.client.HTTPConnection.debuglevel = 1
 
-from urllib3.connection import HTTPSConnection
-
-HTTPSConnection.debuglevel = 1
-from requests.packages.urllib3.connection import HTTPSConnection
-
-HTTPSConnection.debuglevel = 1
-
 from create_token import VaultCreateTokenAction
 from tests.vault_action_tests_base import VaultActionTestCase
 
