@@ -33,6 +33,11 @@ jobs:
             echo "Setting up custom pack testing environment with tests/setup_testing_env.sh"
             source ~/virtualenv/bin/activate
             tests/setup_testing_env.sh
+            set -x
+            which nosetests
+            # eventlet monkey_patch as early as possible
+            sed -i -e '/^import re$/i from st2common.util.monkey_patch import monkey_patch\nmonkey_patch()' $(which nosetests)
+            head -n5 $(which nosetests)
       - run:
           name: Run tests (Python 3.6)
           # NOTE: We don't want to use default "-e" option because this means
