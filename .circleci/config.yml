@@ -33,10 +33,6 @@ jobs:
             echo "Setting up custom pack testing environment with tests/setup_testing_env.sh"
             source ~/virtualenv/bin/activate
             tests/setup_testing_env.sh
-            set -x
-            which nosetests
-            # eventlet monkey_patch as early as possible (has to be in activate as nosetests gets reinstalled during test phase)
-            echo "grep -q monkey_patch $(which nosetests) || sed -i -e '/^import re$/i from st2common.util.monkey_patch import monkey_patch\nmonkey_patch()' $(which nosetests)" >> ~/virtualenv/bin/activate
       - run:
           name: Run tests (Python 3.6)
           # NOTE: We don't want to use default "-e" option because this means
@@ -44,7 +40,10 @@ jobs:
           # can't intercept the error and cause non-fatal exit in case pack
           # doesn't declare support for Python 3
           shell: /bin/bash
-          command: ~/ci/.circle/test ; ~/ci/.circle/exit_on_py3_checks $?
+          # eventlet monkey_patch as early as possible (has to be in activate as nosetests gets reinstalled during test phase)
+          command: |
+            echo "grep -q monkey_patch ~/virtualenv/bin/nosetests || sed -i -e '/^import re$/i from st2common.util.monkey_patch import monkey_patch\nmonkey_patch()' ~/virtualenv/bin/nosetests" >> ~/virtualenv/bin/activate
+            ~/ci/.circle/test ; ~/ci/.circle/exit_on_py3_checks $?
       - save_cache:
           key: v1-dependency-cache-py36-{{ checksum "requirements.txt" }}
           paths:
