@@ -38,3 +38,7 @@ You can also use dynamic values from the datastore. See the
 * `read` - Read value from Vault server
 * `write` - Write key/value to Vault server
 * `read_kv` - Read key-value secrets from Vault server
+
+## Maintainers
+Active pack maintainers with review & write repository access and expertise with vault:
+* Jacob Floyd ([@cognifloyd](https://github.com/cognifloyd)) <cognifloyd@gmail.com> Copart
