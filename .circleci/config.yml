@@ -40,7 +40,11 @@ jobs:
           # can't intercept the error and cause non-fatal exit in case pack
           # doesn't declare support for Python 3
           shell: /bin/bash
-          command: ~/ci/.circle/test ; ~/ci/.circle/exit_on_py3_checks $?
+          # eventlet monkey_patch as early as possible (has to be in activate as nosetests gets reinstalled during test phase)
+          command: |
+            echo "grep -q monkey_patch ~/virtualenv/bin/nosetests || sed -i -e '/^import re$/i from st2common.util.monkey_patch import monkey_patch\nmonkey_patch()\n' ~/virtualenv/bin/nosetests" >> ~/virtualenv/bin/activate
+            echo "grep -q pyopenssl\\.inject ~/virtualenv/bin/nosetests || sed -i -e '/^import re$/i from urllib3.contrib import pyopenssl\npyopenssl.inject_into_urllib3()\n' ~/virtualenv/bin/nosetests" >> ~/virtualenv/bin/activate
+            ~/ci/.circle/test ; ~/ci/.circle/exit_on_py3_checks $?
       - save_cache:
           key: v1-dependency-cache-py36-{{ checksum "requirements.txt" }}
           paths:
