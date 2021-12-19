@@ -1,0 +1,20 @@
+name: Release
+
+on:
+  push:
+    branches:
+      # the default branch
+      - master
+
+permissions:
+  contents: write
+
+jobs:
+  build_and_test:
+    name: 'Build and Test'
+    uses: StackStorm-Exchange/stackstorm-vault/.github/workflows/build_and_test.yaml@master
+
+  tag_release:
+    needs: build_and_test
+    name: Tag Release
+    uses: StackStorm-Exchange/ci/.github/workflows/pack-tag_release.yaml@master
