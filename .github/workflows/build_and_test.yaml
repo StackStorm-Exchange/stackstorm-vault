@@ -35,6 +35,7 @@ jobs:
           python-version: ${{ matrix.python-version }}
 
       - name: Install consul, vault, python hvac
+        working-directory: pack
         shell: bash
         run: |
           tests/setup_testing_env.sh
