@@ -22,6 +22,7 @@
     enum:
       - approle
       - token
+      - kubernetes
       # Not implemented:
       # - app-id
       # - ali-cloud
@@ -32,7 +33,6 @@
       # - gcp
       # - github
       # - jwt
-      # - kubernetes
       # - ldap
       # - mfa
       # - oidc
@@ -40,7 +40,11 @@
       # - radius
       # - userpass
     required: false
-  
+
+  auth_mount_point:
+    description: "Custom authentication mount point, if required"
+    type: "string"
+    required: false
   token:
     description: "Authentication token (method=token)"
     type: "string"
@@ -55,4 +59,8 @@
     description: "Authentication approle secret-id (method=approle)"
     type: "string"
     secret: true
+    required: false
+  role:
+    description: "Authentication role (method=kubernetes)"
+    secret: false
     required: false
