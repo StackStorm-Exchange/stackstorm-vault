@@ -19,9 +19,16 @@ jobs:
         include:
           - python-version-short: 3.6
             python-version: 3.6.13
+            vault-version: 1.5.9
     steps:
       - name: Checkout Pack Repo and CI Repos
         uses: StackStorm-Exchange/ci/.github/actions/checkout@master
+
+      - name: Checkout github.com/hvac/hvac
+        uses: actions/checkout@v2
+        with:
+          path: hvac
+          fetch-depth: 0
 
       - name: Install APT Dependencies
         uses: StackStorm-Exchange/ci/.github/actions/apt-dependencies@master
@@ -34,11 +41,43 @@ jobs:
           cache-version: v0
           python-version: ${{ matrix.python-version }}
 
-      - name: Install consul, vault, python hvac
+      # task copied (Apache 2.0 License) from
+      # github.com/hvac/hvac .github/workflows/lint-and-test.yml
+      - name: Install Vault and Consul (for integration tests)
         working-directory: pack
         shell: bash
         run: |
-          tests/setup_testing_env.sh
+          curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
+          echo "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main" \
+            | sudo tee /etc/apt/sources.list.d/hashicorp.list
+
+          sudo apt update \
+            -o Dir::Etc::sourceparts="-" \
+            -o APT::Get::List-Cleanup="0" \
+            -o Dir::Etc::sourcelist="sources.list.d/hashicorp.list"
+
+          sudo apt install \
+            consul \
+            vault=${{ matrix.vault-version }} \
+            ;
+
+          # We disble cap_ipc_lock here as its generally incompatabile with GitHub
+          # Actions' runtime environments.
+          sudo setcap cap_ipc_lock= /usr/bin/vault
+
+      - name: Setup hvac symlinks
+        shell: bash
+        env:
+          HVAC_DIR: ${{ github.workspace }}/hvac
+        run: |
+          # using symlinks allows us to import tests.utils.* without adding
+          # the rest of the hvac tests. tests.utils also uses config_files,
+          # so make that available too.
+          for x in utils config_files; do
+            rm -f ${ROOT_DIR}/tests/${x}
+            # relative (-r) allows the symlink to work in vagrant
+            ln -rs ${HVAC_DIR}/tests/${x} ${ROOT_DIR}/tests/${x}
+          done
 
       - name: Update virtualenv activate script
         # This works around an infinite recursion error with newer requests+ssl+eventlet.
