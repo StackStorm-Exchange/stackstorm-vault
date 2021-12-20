@@ -28,6 +28,9 @@ jobs:
         uses: actions/checkout@v2
         with:
           path: hvac
+          repository: hvac/hvac
+          # main = the release branch; devel = the active development branch
+          ref: main
           fetch-depth: 0
 
       - name: Install APT Dependencies
