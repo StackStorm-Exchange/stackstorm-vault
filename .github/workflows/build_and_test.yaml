@@ -73,10 +73,12 @@ jobs:
           # using symlinks allows us to import tests.utils.* without adding
           # the rest of the hvac tests. tests.utils also uses config_files,
           # so make that available too.
+          set -eux
           for x in utils config_files; do
             rm -f ${ROOT_DIR}/tests/${x}
             # relative (-r) allows the symlink to work in vagrant
             ln -rs ${HVAC_DIR}/tests/${x} ${ROOT_DIR}/tests/${x}
+            ls -ld ${ROOT_DIR}/tests/${x}
           done
 
       - name: Update virtualenv activate script
