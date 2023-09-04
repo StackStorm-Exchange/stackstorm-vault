@@ -1,0 +1,141 @@
+# {{ pack["pack.yaml"].name | capitalize }} Integration Pack
+_{{ pack["pack.yaml"].description }}_
+
+*Author:* {{ pack["pack.yaml"].author }} <{{ pack["pack.yaml"].email }}>
+
+## Maintainers
+Active pack maintainers with review & write repository access and expertise with vault:
+* Jacob Floyd ([@cognifloyd](https://github.com/cognifloyd)) <cognifloyd@gmail.com> Copart
+* Carlos ([@nzlosh](https://github.com/nzlosh))
+
+### Contributors
+{% for contributor in pack["pack.yaml"].contributors -%}
+  - {{ contributor }}
+{% endfor %}
+
+{% if pack and pack["config.schema.yaml"] -%}
+## Configuration
+
+The following options are required to be configured for the pack to work correctly.
+
+| Option | Type | Required | Secret | Description |
+|---|---|---|---|---|
+{% for key, value in pack["config.schema.yaml"].items() -%}
+| `{{ key }}` | {{ value.type }} | {{ value.required }} | {{ value.secret | default("default") }} | _{{ value.description | default("Unavailable") }}_ |
+{% if "array" == value.type -%}
+{% if "object" == value.get("items").type -%}
+{% for ik, iv in value.get("items").properties.items() -%}
+| - `{{ ik }}` | {{ iv.type }} | {{ iv.required }} | {{ iv.secret | default("default") }} | _{{ iv.description | default("Unavailable") }}_ |
+{% endfor -%}
+{% else -%}
+| | {{ value.get("items").type }} | | | list of items |
+{% endif -%}
+{% endif -%}
+{% endfor -%}
+
+{% endif %}
+
+## Actions
+
+{% if actions | length > 0 %}
+The pack provides the following actions:
+
+{% for key, value in actions.items() -%}
+### {{ value.name }}
+_{{ value.description }}_
+{% if "parameters" in value -%}
+| Parameter | Type | Required | Secret | Description |
+|---|---|---|---|---|
+{% for p_key, p_value in value.parameters.items() -%}
+{% if "array" == p_value.type -%}
+{% if p_value.get("items").type == "object" -%}
+{% for a_k, a_v in p_value.get("items").properties.items() -%}
+| - `{{ a_k }}` | {{ a_v.type | default("n/a") }} | {{ a_v.required | default("default") }} | {{ a_v.secret | default("default") }} | _{{ a_v.description | default("Unavailable") }}_ |
+{% endfor %}
+{% else -%}
+| Items are of type | {{ p_value.items.type }} ||||
+{% endif -%}
+{% endif -%}
+| `{{ p_key }}` | {{ p_value.type | default("n/a") }} | {{ p_value.required | default("default") }} | {{ p_value.secret | default("default") }} | _{{ p_value.description | default("Unavailable") }}_ |
+{% endfor -%}
+{% endif %}
+
+{% endfor %}
+{% else %}
+There are no actions available for this pack.
+{% endif %}
+
+### generate secret
+
+This action is written to pre-populate keys with a random secret.
+
+The following string sets are available
+
+ - ascii_letters
+   ```abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ```
+ - ascii_lowercase
+   ```abcdefghijklmnopqrstuvwxyz```
+ - ascii_uppercase
+   ```ABCDEFGHIJKLMNOPQRSTUVWXYZ```
+ - digits
+   ```0123456789```
+ - punctuation
+   ```!"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~```
+ - printable
+   ```0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~ \t\n\r\x0b\x0c```
+ - alphanumeric
+   ```abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789```
+
+### Update tactic
+
+The update tactic controls how the action will update existing secrets.  It's intended to ensure idempotence on multiple runs of the secret generation action.  The currently supported tactics are:
+ - `overwrite`: Overwrite an existing secret.
+ - `refrain`: Do not overwrite an existing secret.
+
+## Sensors
+{% if sensors | length > 0 %}
+The following sensors and triggers are provided:
+{% for key, value in sensors.items() %}
+### Class {{ value.class_name }}
+_{{ value.description }}_
+
+{% for trigger in value.trigger_types -%}
+| Trigger Name | Description |
+|---|---|
+| `{{ trigger.name }}` | _{{ trigger.description | default("Unavailable") }}_ |
+{% endfor %}
+
+
+{% endfor %}
+{% else %}
+There are no sensors available for this pack.
+{% endif %}
+
+## Authentication methods
+
+Authentication methods are defined per profile and are mutally exclusive.  Only configure the
+method that should be used.
+
+### Supported
+ - approle
+ - token
+
+### Unsupported
+ - app-id
+ - ali-cloud
+ - aws-iam  # aka aws
+ - aws-ec2
+ - azure
+ - cert  # aka tls
+ - gcp
+ - github
+ - jwt
+ - kubernetes
+ - ldap
+ - mfa
+ - oidc
+ - okta
+ - radius
+ - userpass
+
+<sub>Documentation generated using [pack2md](https://github.com/nzlosh/pack2md)</sub>

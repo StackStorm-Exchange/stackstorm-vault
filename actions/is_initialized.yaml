@@ -4,3 +4,8 @@ runner_type: python-script
 description: "Read initialization status from Vault server"
 enabled: true
 entry_point: "is_initialized.py"
+parameters:
+  profile_name:
+    description: "The profile to use to run this action."
+    type: "string"
+    required: false

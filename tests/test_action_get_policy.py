@@ -11,8 +11,8 @@ class GetPolicyActionTestCase(VaultActionTestCase):
 
         # test
         action = self.get_action_instance(config=self.dummy_pack_config)
-        action_result = action.run(name="stanley")
+        _, action_result = action.run(name="stanley")
         self.assertEqual(action_result, rules_text)
 
         # cleanup
-        self.client.delete_policy("stanley")
+        self.client.sys.delete_policy("stanley")

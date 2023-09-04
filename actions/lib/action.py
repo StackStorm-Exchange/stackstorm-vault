@@ -3,48 +3,82 @@ from st2common.runners.base_action import Action
 
 
 class VaultBaseAction(Action):
-
+    """
+    Base Action includes st2 profile and vault client functions
+    for child classes.
+    """
     def __init__(self, config):
-        super(VaultBaseAction, self).__init__(config)
-        self.vault = self._get_client()
+        super().__init__(config)
+        self.config = config
+        self.vault = None
 
-    def _get_client(self):
-        url = self.config['url']
-        verify = self._get_verify()
+    def run(self, profile_name=None):
+        """
+        The base action selects the profile and initialises the vault client.
+        """
+        if profile_name is None:
+            profile_name = self.config.get("default_profile")
+            if profile_name is None:
+                raise ValueError("No default profile found, check the pack configuration.")
 
-        auth_method = self.config.get("auth_method", "token")
-        token = self.config["token"]
-
-        # token is passed during client init to allow client to also
-        # get the token from VAULT_TOKEN env var or ~/.vault-token
-        client = hvac.Client(url=url, token=token, verify=verify)
-
-        # NB: for auth_methods, we used to be able to login with
-        # client.auth_*, but most of those have been deprecated
-        # in favor of: client.auth.<method>.login
-        # So, use client.auth.<method> where implemented
-
-        # token is handled during client init
-        # other auth methods will override it as needed
-        if auth_method == "token":
-            pass
-        elif auth_method == "approle":
-            client.auth.approle.login(
-                role_id=self.config["role_id"],
-                secret_id=self.config["secret_id"],
-            )
+        for profile in self.config.get("profiles", []):
+            if profile_name == profile["name"]:
+                self._configure_client(profile)
+                break
         else:
-            raise NotImplementedError(
-                "The {} auth method has a typo or has not been implemented (yet).".format(
-                    auth_method
-                )
+            raise ValueError(
+                f"Profile '{profile_name}' doesn't exist, check the pack configuration."
             )
 
-        return client
+    def _configure_client(self, profile):
+        """
+        Set-up of the Vault client from the pack configuration.
+        """
+        auth_methods = {"token": self._auth_token, "approle": self._auth_approle}
 
-    def _get_verify(self):
-        verify = self.config['verify']
-        cert = self.config['cert']
-        if verify and cert:
-            return cert
-        return verify
+        client_kwargs = {"url": profile["url"]}
+
+        # Server TLS validation
+        if profile.get("ca_cert_path"):
+            client_kwargs["verify"] = profile["ca_cert_path"]
+        else:
+            client_kwargs["verify"] = profile.get("verify", False)
+
+        # Client certificate (HVAC expects a cert/key tuple)
+        cert = (profile.get("client_cert_path"), profile.get("client_key_path"))
+        # Both the key and certificate must be provided.
+        if bool(cert[0]) ^ bool(cert[1]):
+            raise ValueError(
+                "Client-side TLS requires the client's certificate and key but one was provided."
+            )
+        # Use the key/cert tuple with HVAC if they are both defined.
+        if cert[0] and cert[1]:
+            client_kwargs["cert"] = cert
+
+        self.vault = hvac.Client(**client_kwargs)
+        auth_method = profile.get("auth_method")
+        if auth_method not in auth_methods:
+            raise ValueError(f"Auth method '{auth_method}' is not supported.")
+
+        # Authenticate the client connection.
+        auth_methods[auth_method](profile)
+
+        if self.vault.token is None:
+            raise ValueError(
+                "Failed to set a valid token for the client, check the pack configuration."
+            )
+
+    def _auth_token(self, profile):
+        """
+        A vault token provided directly in the pack configuration
+        """
+        self.vault.token = profile.get("token")
+
+    def _auth_approle(self, profile):
+        """
+        Authenticate using a vault app role to acquire the vault token.
+        """
+        self.vault.auth.approle.login(
+            role_id=profile["role_id"],
+            secret_id=profile["secret_id"],
+        )

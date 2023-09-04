@@ -1,11 +1,16 @@
 ---
-url: 'https://127.0.0.1:8200'
-cert: ''
-verify: false
-
-auth_method: token
-token: ''
-
-# auth_method: approle
-# role_id: '00000000-0000-0000-0000-000000000000'
-# secret_id: '00000000-0000-0000-0000-000000000000'
+default_profile: production
+profiles:
+  - name: production
+    url: 'https://169.254.0.1:8200'
+    ca_cert_path: /etc/ssl/certs/internal_ca.pem
+    client_cert_path: /etc/ssl/private/client.pem
+    client_key_path: /etc/ssl/private/client.key
+    auth_method: approle
+    role_id: '00000000-0000-0000-0000-000000000000'
+    secret_id: '00000000-0000-0000-0000-000000000000'
+  - name: development
+    url: 'https://127.0.0.1:8200'
+    verify: false
+    auth_method: token
+    token: ''

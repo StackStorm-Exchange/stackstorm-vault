@@ -26,23 +26,23 @@ class VaultActionTestCase(HvacIntegrationTestCase, BaseActionTestCase):
         mounted_secrets_engines = self.client.sys.list_mounted_secrets_engines()["data"]
         # based on hvac/tests/integration_tests/v1/test_integration.py
         if "secret/" not in mounted_secrets_engines:
-            self.client.enable_secret_backend(
+            self.client.sys.enable_secrets_engine(
                 backend_type="kv",
-                mount_point="secret",
+                path="secret",
                 options=dict(version=1),
             )
 
         # based on hvac/tests/integration_tests/api/secrets_engins/test_kv_v*.py
         if self.secret_v1 and "kvv1/" not in mounted_secrets_engines:
-            self.client.enable_secret_backend(
+            self.client.sys.enable_secrets_engine(
                 backend_type="kv",
-                mount_point="kvv1",
+                path="kvv1",
                 options=dict(version=1),
             )
         if self.secret_v2 and "kvv2/" not in mounted_secrets_engines:
-            self.client.enable_secret_backend(
+            self.client.sys.enable_secrets_engine(
                 backend_type="kv",
-                mount_point="kvv2",
+                path="kvv2",
                 options=dict(version=2),
             )
 
@@ -53,29 +53,32 @@ class VaultActionTestCase(HvacIntegrationTestCase, BaseActionTestCase):
 
         self.dummy_pack_config = None
         if self.secret_v1:
-            self.client.disable_secret_backend(mount_point="kvv1")
+            self.client.sys.disable_secrets_engine(path="kvv1")
         if self.secret_v2:
-            self.client.disable_secret_backend(mount_point="kvv2")
+            self.client.sys.disable_secrets_engine(path="kvv2")
 
     def build_dummy_pack_config(self, url="https://localhost:8200"):
         # based on create_client() in hvac/tests/utils/__init__.py
         server_cert_path = get_config_file_path("server-cert.pem")
 
-        token_result = self.client.create_token(lease=self.default_token_lease)
+        token_result = self.client.auth.token.create(ttl=self.default_token_lease)
         token = token_result["auth"]["client_token"]
 
         dummy_pack_config = {
-            "url": url,
-            # pack config | relation | hvac.Client()
-            # ------------|----------|--------------
-            #    cert     |    !=    |     cert
-            # cert+verify |    ==    |    verify
-            "cert": server_cert_path,
-            "verify": True,
-            "auth_method": "token",
-            "token": token,
-            "role_id": None,
-            "secret_id": None,
+            "default_profile": "dummy",
+            "profiles": [
+                {
+                    "name": "dummy",
+                    "url": url,
+                    # cert:
+                    #  False = no validation
+                    #  True = Valid server cert
+                    #  "cert_path" = validate server certificate
+                    "verify": server_cert_path,
+                    "auth_method": "token",
+                    "token": token,
+                }
+            ],
         }
 
         return dummy_pack_config

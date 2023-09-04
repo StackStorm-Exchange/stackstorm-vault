@@ -6,13 +6,17 @@ description: "Create a new Vault policy"
 enabled: true
 entry_point: "set_policy.py"
 parameters:
-    name:
-        type: string
-        description: "Name of new Vault Policy"
-        required: true
-        position: 0
-    rules:
-        type: string
-        description: "Policy rules"
-        required: true
-        position: 1
+  profile_name:
+    description: "The profile to use to run this action."
+    type: "string"
+    required: false
+  name:
+    type: string
+    description: "Name of new Vault Policy"
+    required: true
+    position: 0
+  rules:
+    type: string
+    description: "Policy rules"
+    required: true
+    position: 1

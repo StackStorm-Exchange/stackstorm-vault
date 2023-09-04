@@ -20,13 +20,13 @@ class ReadKVActionTestCase(VaultActionTestCase):
 
         # test
         action = self.get_action_instance(config=self.dummy_pack_config)
-        result = action.run(
+        _, result = action.run(
             path="stanley",
             kv_version=1,
             mount_point=mount_point,
             version="1",
         )
-        self.assertEqual(result["st2"], "awesome")
+        self.assertEqual(result["data"]["st2"], "awesome")
 
         # cleanup
         self.client.kv.v1.delete_secret(
@@ -46,14 +46,14 @@ class ReadKVActionTestCase(VaultActionTestCase):
 
         # test
         action = self.get_action_instance(config=self.dummy_pack_config)
-        result = action.run(
+        _, result = action.run(
             path="stanley",
             kv_version=2,
             mount_point=mount_point,
             version="1",
         )
         # v2 puts the secret one level deeper than v1
-        self.assertEqual(result["data"]["st2"], "awesome")
+        self.assertEqual(result["data"]["data"]["st2"], "awesome")
 
         # cleanup
         self.client.kv.v2.delete_metadata_and_all_versions(

@@ -1,58 +1,64 @@
 ---
-  url:
-    description: "URL for the Vault server"
-    type: "string"
-    secret: false
+default_profile:
+  description: "The default profile to use in an action when none is given."
+  type: string
+  required: true
+profiles:
+  description: "Profiles definitions"
+  type: "array"
+  required: true
+  items:
+    type: "object"
     required: true
-  cert:
-    description: "Path to client-side certificate"
-    type: "string"
-    secret: false
-    required: false
-  verify:
-    description: "Whether to verify the SSL certificate or not"
-    type: "boolean"
-    secret: false
-    default: true
-
-  auth_method:
-    description: "Authentication method"
-    type: "string"
-    default: "token"
-    enum:
-      - approle
-      - token
-      # Not implemented:
-      # - app-id
-      # - ali-cloud
-      # - aws-iam  # aka aws
-      # - aws-ec2
-      # - azure
-      # - cert  # aka tls
-      # - gcp
-      # - github
-      # - jwt
-      # - kubernetes
-      # - ldap
-      # - mfa
-      # - oidc
-      # - okta
-      # - radius
-      # - userpass
-    required: false
-  
-  token:
-    description: "Authentication token (method=token)"
-    type: "string"
-    secret: true
-    required: false
-  role_id:
-    description: "Authentication approle role-id (method=approle)"
-    type: "string"
-    secret: true
-    required: false
-  secret_id:
-    description: "Authentication approle secret-id (method=approle)"
-    type: "string"
-    secret: true
-    required: false
+    additionalProperties: false
+    properties:
+      name:
+        description: "Name of the profile."
+        type: "string"
+        required: true
+      url:
+        description: "URL for the Vault server"
+        type: "string"
+        secret: false
+        required: true
+      verify:
+        description: "Verify the TLS certificate for HTTPS requests. Default false (this option is ignored if ca_cert_path is supplied)."
+        type: "boolean"
+        required: false
+        default: false
+      ca_cert_path:
+        description: "CA Certificate path. Defaults to empty string. When path is provided, TLS certificates are verified."
+        type: "string"
+        required: false
+        default: ""
+      client_cert_path:
+        description: "Client side certificates for HTTPS request"
+        type: "string"
+        required: false
+      client_key_path:
+        description: "Client private key for HTTPS request"
+        type: "string"
+        required: false
+      auth_method:
+        description: "Authentication method"
+        type: "string"
+        default: "token"
+        enum:
+          - approle
+          - token
+        required: false
+      token:
+        description: "Authentication token (method=token)"
+        type: "string"
+        secret: true
+        required: false
+      role_id:
+        description: "Authentication approle role-id (method=approle)"
+        type: "string"
+        secret: true
+        required: false
+      secret_id:
+        description: "Authentication approle secret-id (method=approle)"
+        type: "string"
+        secret: true
+        required: false

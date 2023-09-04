@@ -16,7 +16,7 @@ class PolicySetActionTestCase(VaultActionTestCase):
         # rules_obj = {"path": {"sys": {"policy": "deny"}, "secret": {"policy": "write"}}}
 
         action = self.get_action_instance(config=self.dummy_pack_config)
-        action_result = action.run(
+        _, action_result = action.run(
             name="stanley",
             rules=rules_text,
         )
@@ -26,4 +26,4 @@ class PolicySetActionTestCase(VaultActionTestCase):
         self.assertEqual(result, rules_text)
 
         # cleanup
-        self.client.delete_policy("stanley")
+        self.client.sys.delete_policy("stanley")

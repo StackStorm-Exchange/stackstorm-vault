@@ -11,8 +11,8 @@ class ReadActionTestCase(VaultActionTestCase):
 
         # test
         action = self.get_action_instance(config=self.dummy_pack_config)
-        result = action.run(path="secret/stanley")
-        self.assertEqual(result["st2"], "awesome")
+        _, result = action.run(path="secret/stanley")
+        self.assertEqual(result["data"]["st2"], "awesome")
 
         # cleanup
         self.client.delete("secret/stanley")
