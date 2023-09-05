@@ -3,17 +3,6 @@ _StackStorm pack integration with HashiCorp Vault_
 
 *Author:* steve.neuharth <steve.neuharth@target.com>
 
-## Maintainers
-Active pack maintainers with review & write repository access and expertise with vault:
-* Jacob Floyd ([@cognifloyd](https://github.com/cognifloyd)) <cognifloyd@gmail.com> Copart
-* Carlos ([@nzlosh](https://github.com/nzlosh))
-
-### Contributors
-- Andy Moore <andrew.moore@pearson.com>
-- Jacob Floyd <cognifloyd@gmail.com>
-- Carlos <nzlosh@yahoo.com>
-
-
 ## Configuration
 
 The following options are required to be configured for the pack to work correctly.
@@ -39,35 +28,6 @@ The following options are required to be configured for the pack to work correct
 
 The pack provides the following actions:
 
-### delete
-_Delete value from Vault server_
-| Parameter | Type | Required | Secret | Description |
-|---|---|---|---|---|
-| `profile_name` | string | False | default | _The profile to use to run this action._ |
-| `path` | string | True | default | _Path to delete from Vault_ |
-
-
-### generate_secret
-_Generate a secret and write it to vault._
-| Parameter | Type | Required | Secret | Description |
-|---|---|---|---|---|
-| `profile_name` | string | False | default | _The profile to use to run this action._ |
-| `mount_point` | string | False | default | _Vault moint point in the URL_ |
-| `path` | string | True | default | _Path to the secrets_ |
-| `key_name` | string | True | default | _Name of the key to write the secret._ |
-| `update_tactic` | string | False | default | _The logic to use when writing secret to Vault.  See readme for details._ |
-| `string_set` | string | default | default | _Unavailable_ |
-| `secret_length` | integer | default | default | _The number of characters to use in the secret._ |
-
-
-### read
-_Read value from Vault server_
-| Parameter | Type | Required | Secret | Description |
-|---|---|---|---|---|
-| `profile_name` | string | False | default | _The profile to use to run this action._ |
-| `path` | string | True | default | _Key to read from Vault_ |
-
-
 ### create_token
 _Create a new Token_
 | Parameter | Type | Required | Secret | Description |
@@ -92,13 +52,33 @@ _Create a new Token_
 | `mount_point` | string | False | default | _The 'path' the method/backend was mounted on._ |
 
 
-### write
-_Write a key/value to Vault_
+### delete
+_Delete value from Vault server_
 | Parameter | Type | Required | Secret | Description |
 |---|---|---|---|---|
 | `profile_name` | string | False | default | _The profile to use to run this action._ |
-| `path` | string | True | default | _Path to the Vault secrets_ |
-| `values` | string | True | default | _Keys and values to write in Vault ({"key":"value", "key2": "value2"}_ |
+| `path` | string | True | default | _Path to delete from Vault_ |
+
+
+### delete_policy
+_Delete policy from Vault server_
+| Parameter | Type | Required | Secret | Description |
+|---|---|---|---|---|
+| `profile_name` | string | False | default | _The profile to use to run this action._ |
+| `name` | string | True | default | _Policy to delete from Vault_ |
+
+
+### generate_secret
+_Generate a secret and write it to vault._
+| Parameter | Type | Required | Secret | Description |
+|---|---|---|---|---|
+| `profile_name` | string | False | default | _The profile to use to run this action._ |
+| `mount_point` | string | False | default | _Vault moint point in the URL_ |
+| `path` | string | True | default | _Path to the secrets_ |
+| `key_name` | string | True | default | _Name of the key to write the secret._ |
+| `update_tactic` | string | False | default | _The logic to use when writing secret to Vault.  See readme for details._ |
+| `string_set` | string | default | default | _Unavailable_ |
+| `secret_length` | integer | default | default | _The number of characters to use in the secret._ |
 
 
 ### get_policy
@@ -109,12 +89,26 @@ _Read policy from Vault server_
 | `name` | string | True | default | _Policy to read from Vault_ |
 
 
-### delete_policy
-_Delete policy from Vault server_
+### is_initialized
+_Read initialization status from Vault server_
 | Parameter | Type | Required | Secret | Description |
 |---|---|---|---|---|
 | `profile_name` | string | False | default | _The profile to use to run this action._ |
-| `name` | string | True | default | _Policy to delete from Vault_ |
+
+
+### list_policies
+_List Policies from Vault server_
+| Parameter | Type | Required | Secret | Description |
+|---|---|---|---|---|
+| `profile_name` | string | False | default | _The profile to use to run this action._ |
+
+
+### read
+_Read value from Vault server_
+| Parameter | Type | Required | Secret | Description |
+|---|---|---|---|---|
+| `profile_name` | string | False | default | _The profile to use to run this action._ |
+| `path` | string | True | default | _Key to read from Vault_ |
 
 
 ### read_kv
@@ -128,6 +122,15 @@ _Read a kv value from Vault server_
 | `version` | string | True | default | _The version of the kv *data*_ |
 
 
+### revoke_token
+_Revoke a token and all its child tokens._
+| Parameter | Type | Required | Secret | Description |
+|---|---|---|---|---|
+| `profile_name` | string | False | default | _The profile to use to run this action._ |
+| `token` | string | True | default | _Token to revoke._ |
+| `mount_point` | string | False | default | _The 'path' the method/backend was mounted on._ |
+
+
 ### set_policy
 _Create a new Vault policy_
 | Parameter | Type | Required | Secret | Description |
@@ -137,11 +140,13 @@ _Create a new Vault policy_
 | `rules` | string | True | default | _Policy rules_ |
 
 
-### list_policies
-_List Policies from Vault server_
+### write
+_Write a key/value to Vault_
 | Parameter | Type | Required | Secret | Description |
 |---|---|---|---|---|
 | `profile_name` | string | False | default | _The profile to use to run this action._ |
+| `path` | string | True | default | _Path to the Vault secrets_ |
+| `values` | string | True | default | _Keys and values to write in Vault ({"key":"value", "key2": "value2"}_ |
 
 
 ### write_secret
@@ -155,22 +160,6 @@ _Write a secret to Vault._
 | `secret` | string | True | True | _Secret contents to be written._ |
 | `decode_json` | boolean | False | default | _Secret is formatted as a json and should be decode to be sent to Vault_ |
 | `update_tactic` | string | False | default | _The logic to use when writing secret to Vault.  See readme for details._ |
-
-
-### revoke_token
-_Revoke a token and all its child tokens._
-| Parameter | Type | Required | Secret | Description |
-|---|---|---|---|---|
-| `profile_name` | string | False | default | _The profile to use to run this action._ |
-| `token` | string | True | default | _Token to revoke._ |
-| `mount_point` | string | False | default | _The 'path' the method/backend was mounted on._ |
-
-
-### is_initialized
-_Read initialization status from Vault server_
-| Parameter | Type | Required | Secret | Description |
-|---|---|---|---|---|
-| `profile_name` | string | False | default | _The profile to use to run this action._ |
 
 
 
@@ -234,5 +223,10 @@ method that should be used.
  - okta
  - radius
  - userpass
+
+## Maintainers
+Active pack maintainers with review & write repository access and expertise with vault:
+* Jacob Floyd ([@cognifloyd](https://github.com/cognifloyd)) <cognifloyd@gmail.com> Copart
+* Carlos ([@nzlosh](https://github.com/nzlosh))
 
 <sub>Documentation generated using [pack2md](https://github.com/nzlosh/pack2md)</sub>

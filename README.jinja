@@ -3,16 +3,6 @@ _{{ pack["pack.yaml"].description }}_
 
 *Author:* {{ pack["pack.yaml"].author }} <{{ pack["pack.yaml"].email }}>
 
-## Maintainers
-Active pack maintainers with review & write repository access and expertise with vault:
-* Jacob Floyd ([@cognifloyd](https://github.com/cognifloyd)) <cognifloyd@gmail.com> Copart
-* Carlos ([@nzlosh](https://github.com/nzlosh))
-
-### Contributors
-{% for contributor in pack["pack.yaml"].contributors -%}
-  - {{ contributor }}
-{% endfor %}
-
 {% if pack and pack["config.schema.yaml"] -%}
 ## Configuration
 
@@ -40,7 +30,7 @@ The following options are required to be configured for the pack to work correct
 {% if actions | length > 0 %}
 The pack provides the following actions:
 
-{% for key, value in actions.items() -%}
+{% for key, value in (actions.items() | list | sort) -%}
 ### {{ value.name }}
 _{{ value.description }}_
 {% if "parameters" in value -%}
@@ -137,5 +127,10 @@ method that should be used.
  - okta
  - radius
  - userpass
+
+## Maintainers
+Active pack maintainers with review & write repository access and expertise with vault:
+* Jacob Floyd ([@cognifloyd](https://github.com/cognifloyd)) <cognifloyd@gmail.com> Copart
+* Carlos ([@nzlosh](https://github.com/nzlosh))
 
 <sub>Documentation generated using [pack2md](https://github.com/nzlosh/pack2md)</sub>
