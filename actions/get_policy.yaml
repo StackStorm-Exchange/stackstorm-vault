@@ -6,8 +6,12 @@ description: "Read policy from Vault server"
 enabled: true
 entry_point: "get_policy.py"
 parameters:
-    name:
-        type: string
-        description: "Policy to read from Vault"
-        required: true
-        position: 0
+  profile_name:
+    description: "The profile to use to run this action."
+    type: "string"
+    required: false
+  name:
+    type: string
+    description: "Policy to read from Vault"
+    required: true
+    position: 0

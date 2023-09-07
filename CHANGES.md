@@ -1,8 +1,19 @@
 # Change Log
 
+## 2.0.0
+
+- Add action to generate secrets.
+- Add profile support to pack to define multiple Vault end-points.
+- Updated README with full list of available actions.
+- Fixes TLS support for server and client certificates.
+- Updated HVAC python module dependency v1.1.0
+- Added token revoke action.
+- Updated all actions to use profile name.
+- Moved from Python 3.6 to 3.8 to support newer version of Vault.
+
 ## 1.0.0
 
-* Drop Python 2.7 support
+- Drop Python 2.7 support
 
 ## 0.6.0
 

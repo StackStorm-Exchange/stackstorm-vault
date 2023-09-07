@@ -11,7 +11,7 @@ class CreateTokenActionTestCase(VaultActionTestCase):
 
     def test_method(self):
         action = self.get_action_instance(config=self.dummy_pack_config)
-        result = action.run(
+        _, result = action.run(
             # token_id=None,
             # policies=None,
             # meta=None,

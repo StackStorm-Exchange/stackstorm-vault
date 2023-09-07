@@ -4,3 +4,8 @@ runner_type: python-script
 description: "List Policies from Vault server"
 enabled: true
 entry_point: "list_policies.py"
+parameters:
+  profile_name:
+    description: "The profile to use to run this action."
+    type: "string"
+    required: false

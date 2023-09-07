@@ -12,14 +12,15 @@ jobs:
   # StackStorm-Exchange/ci/.github/workflows/pack-build_and_test.yaml@master
 
   build_and_test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     name: 'Build and Test / Python ${{ matrix.python-version-short }}'
     strategy:
       matrix:
         include:
-          - python-version-short: "3.6"
-            python-version: 3.6.13
-            vault-version: 1.5.9
+          - python-version-short: "3.8"
+            python-version: 3.8.17
+            vault-version: "1.12.5-1"
+            hvac-gh-tag: "v1.1.1"
     steps:
       - name: Checkout Pack Repo and CI Repos
         uses: StackStorm-Exchange/ci/.github/actions/checkout@master
@@ -30,7 +31,7 @@ jobs:
           path: hvac
           repository: hvac/hvac
           # main = the release branch; devel = the active development branch
-          ref: main
+          ref: ${{ matrix.hvac-gh-tag }}
           fetch-depth: 0
 
       - name: Install APT Dependencies
@@ -50,7 +51,7 @@ jobs:
         working-directory: pack
         shell: bash
         run: |
-          curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
+          wget -O- https://apt.releases.hashicorp.com/gpg | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/hashicorp.gpg
           echo "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main" \
             | sudo tee /etc/apt/sources.list.d/hashicorp.list
 
@@ -59,10 +60,7 @@ jobs:
             -o APT::Get::List-Cleanup="0" \
             -o Dir::Etc::sourcelist="sources.list.d/hashicorp.list"
 
-          sudo apt install \
-            consul \
-            vault=${{ matrix.vault-version }} \
-            ;
+          sudo apt install consul vault=${{ matrix.vault-version }}
 
           # We disble cap_ipc_lock here as its generally incompatabile with GitHub
           # Actions' runtime environments.
@@ -99,7 +97,7 @@ jobs:
 
     services:
       mongo:
-        image: mongo:3.4
+        image: mongo:4.4
         ports:
           - 27017:27017
       rabbitmq:
