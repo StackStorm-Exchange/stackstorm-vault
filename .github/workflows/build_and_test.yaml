@@ -17,7 +17,7 @@ jobs:
     strategy:
       matrix:
         include:
-          - python-version-short: "3.8"
+          - python-version-short: ["3.8", "3.9", "3.10", "3.11"]
             python-version: 3.8.17
             vault-version: "1.12.5-1"
             hvac-gh-tag: "v1.1.1"
@@ -82,14 +82,6 @@ jobs:
             ls -ld ${ROOT_DIR}/tests/${x}
           done
 
-      - name: Update virtualenv activate script
-        # This works around an infinite recursion error with newer requests+ssl+eventlet.
-        # eventlet monkey_patch as early as possible (has to be in activate as nosetests gets reinstalled during test phase)
-        # See: https://github.com/StackStorm-Exchange/stackstorm-vault/pull/23
-        run: |
-          echo "grep -q monkey_patch ${VIRTUALENV_DIR}/bin/nosetests || sed -i -e '/^import re$/i from st2common.util.monkey_patch import monkey_patch\nmonkey_patch()\n' ${VIRTUALENV_DIR}/bin/nosetests" >> ${VIRTUALENV_DIR}/bin/activate
-          echo "grep -q pyopenssl\\.inject ${VIRTUALENV_DIR}/bin/nosetests || sed -i -e '/^import re$/i from urllib3.contrib import pyopenssl\npyopenssl.inject_into_urllib3()\n' ${VIRTUALENV_DIR}/bin/nosetests" >> ${VIRTUALENV_DIR}/bin/activate
-
       - name: Run pack tests
         uses: StackStorm-Exchange/ci/.github/actions/test@master
         with:
@@ -97,7 +89,7 @@ jobs:
 
     services:
       mongo:
-        image: mongo:4.4
+        image: mongo:7.0
         ports:
           - 27017:27017
       rabbitmq:
