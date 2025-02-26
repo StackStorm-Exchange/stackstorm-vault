@@ -62,3 +62,8 @@ profiles:
         type: "string"
         secret: true
         required: false
+      mount_point:
+        description: "Authentication approle secret-id (method=approle)"
+        type: "string"
+        secret: false
+        required: false
