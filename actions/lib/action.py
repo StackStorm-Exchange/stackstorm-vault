@@ -7,6 +7,7 @@ class VaultBaseAction(Action):
     Base Action includes st2 profile and vault client functions
     for child classes.
     """
+
     def __init__(self, config):
         super().__init__(config)
         self.config = config
@@ -19,7 +20,9 @@ class VaultBaseAction(Action):
         if profile_name is None:
             profile_name = self.config.get("default_profile")
             if profile_name is None:
-                raise ValueError("No default profile found, check the pack configuration.")
+                raise ValueError(
+                    "No default profile found, check the pack configuration."
+                )
 
         for profile in self.config.get("profiles", []):
             if profile_name == profile["name"]:
@@ -78,7 +81,18 @@ class VaultBaseAction(Action):
         """
         Authenticate using a vault app role to acquire the vault token.
         """
-        self.vault.auth.approle.login(
-            role_id=profile["role_id"],
-            secret_id=profile["secret_id"],
-        )
+        # Check if mount_point is provided in the profile
+        mount_point = profile.get("mount_point")
+
+        # Prepare login arguments
+        login_kwargs = {
+            "role_id": profile["role_id"],
+            "secret_id": profile["secret_id"],
+        }
+
+        # Add mount_point to kwargs if it exists in the profile
+        if mount_point:
+            login_kwargs["mount_point"] = mount_point
+
+        # Replace the direct login call with kwargs-based call
+        self.vault.auth.approle.login(**login_kwargs)

@@ -1,5 +1,9 @@
 # Change Log
 
+## 2.1.0
+
+- Support mount_point parameter for profiles config.
+
 ## 2.0.0
 
 - Add action to generate secrets.
@@ -48,4 +52,4 @@ The next version will be 1.0.0 and "2" will be dropped from python_versions.
 
 ## 0.1.0
 
-- First release 
+- First release

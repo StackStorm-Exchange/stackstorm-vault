@@ -9,6 +9,7 @@ profiles:
     auth_method: approle
     role_id: '00000000-0000-0000-0000-000000000000'
     secret_id: '00000000-0000-0000-0000-000000000000'
+    mount_point: 'my-approle'
   - name: development
     url: 'https://127.0.0.1:8200'
     verify: false
